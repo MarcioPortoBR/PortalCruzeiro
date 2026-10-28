@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUZEIROPOL - Painel Offline de Atalhos</title>
+    <!-- Ícone embutido (Data URI / SVG) para aparecer perfeitamente nos Favoritos e na aba -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%233b82f6'%3E%3Cpath d='M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z'/%3E%3C/svg%3E">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --card-hover: #334155;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-blue: #3b82f6;
+            --accent-gold: #f59e0b;
+            --accent-red: #ef4444;
+            --border-color: #334155;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            background-image: linear-gradient(rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.9)), url('tijolos.jpg');
+            background-size: cover;
+            background-attachment: fixed;
+            color: var(--text-main);
+            margin: 0;
+            padding: 20px;
+        }
+
+        .wrapper {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        /* Banner de Aviso Institucional */
+        .aviso-institucional {
+            background: linear-gradient(135deg, #78350f, #451a03);
+            border-left: 5px solid var(--accent-gold);
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+        .aviso-institucional h3 {
+            margin: 0 0 5px 0;
+            color: #fde047;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .aviso-institucional p {
+            margin: 0;
+            font-size: 13px;
+            color: #fed7aa;
+            line-height: 1.4;
+        }
+
+        /* Cabeçalho do Portal */
+        .portal-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: var(--card-bg);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+        }
+        .portal-header h1 {
+            margin: 0;
+            font-size: 32px;
+            letter-spacing: 2px;
+            color: #60a5fa;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+        .portal-header span {
+            font-size: 12px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Grid de Links */
+        .grid-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+
+        /* Estilo Base dos Botões/Links */
+        .link-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 12px 16px;
+            text-decoration: none;
+            color: var(--text-main);
+            font-weight: 600;
+            font-size: 14px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 45px;
+            position: relative;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            transition: all 0.2s ease-in-out;
+        }
+
+        .link-card:hover {
+            background: var(--card-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+            border-color: var(--accent-blue);
+        }
+
+        /* Variações de Cores */
+        .link-card.intranet-blue {
+            background: linear-gradient(135deg, #1d4ed8, #1e40af);
+        }
+        .link-card.intranet-blue:hover { background: linear-gradient(135deg, #2563eb, #1d4ed8); }
+
+        .link-card.mapas {
+            background: linear-gradient(135deg, #475569, #334155);
+            border-color: #64748b;
+        }
+        
+        .link-card.alerta {
+            background: linear-gradient(135deg, #b91c1c, #991b1b);
+        }
+        .link-card.alerta:hover { background: linear-gradient(135deg, #dc2626, #b91c1c); }
+
+        .link-card.whatsapp-btn {
+            background: linear-gradient(135deg, #059669, #047857);
+        }
+        .link-card.outlook-btn {
+            background: linear-gradient(135deg, #0284c7, #0369a1);
+        }
+
+        /* Etiqueta "Novo" */
+        .link-card.novo::after {
+            content: "NOVO";
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            background: var(--accent-red);
+            color: white;
+            font-size: 9px;
+            font-weight: bold;
+            padding: 2px 6px;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        /* Informações da Página (Rodapé) */
+        .info-pagina {
+            background: rgba(30, 41, 59, 0.9);
+            border: 1px solid var(--border-color);
+            padding: 12px 18px;
+            border-radius: 8px;
+            font-size: 13px;
+            display: inline-block;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            margin-top: 20px;
+            color: var(--text-muted);
+        }
+        .info-pagina h4 {
+            margin: 0 0 6px 0;
+            color: var(--text-main);
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 4px;
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+        .info-pagina div {
+            margin-bottom: 3px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="wrapper">
+
+        <!-- Aviso Institucional -->
+        <div class="aviso-institucional">
+            <h3>⚠️ AVISO INSTITUCIONAL DE SEGURANÇA</h3>
+			<p>
+				Este painel (<strong>CRUZEIROPOL</strong>), desenvolvido em arquivo único e de código aberto, tem por finalidade centralizar o acesso aos principais serviços utilizados. Funciona como uma alternativa segura, atualizada e otimizada de repositório de links.
+			</p>
+        </div>
+
+        <!-- Cabeçalho -->
+        <div class="portal-header">
+            <h1>CRUZEIROPOL</h1>
+            <span>Painel Seguro de Atalhos e Sistemas</span>
+        </div>
+
+
+        <div class="grid-links">
+            <!-- principais -->
+            <a href="https://web.whatsapp.com/" target="_blank" class="link-card whatsapp-btn">WHATSAPP WEB</a>
+            <a href="https://outlook.office.com/mail/" target="_blank" class="link-card outlook-btn novo">E-MAIL</a>			
+            <a href="http://10.75.200.2/" target="_blank" class="link-card intranet-blue">INTRANET Polícia Civil</a>
+            <a href="https://spj.ipe-policiacivil.sp.gov.br" target="_blank" class="link-card intranet-blue">S P J</a>
+	        <a href="https://inquerito.ipe-policiacivil.sp.gov.br" target="_blank" class="link-card intranet-blue">IPE NOVO</a>
+            <a href="http://inquerito.policiacivil.sp.gov.br/inquerito/" target="_blank" class="link-card intranet-blue">IPE</a>
+            <a href="https://oitiva.ipe-policiacivil.sp.gov.br" target="_blank" class="link-card intranet-blue novo">PORTAL DE OITIVAS</a>	
+            <a href="https://video.ipe-policiacivil.sp.gov.br" target="_blank" class="link-card intranet-blue">PORTAL DE VIDEOS</a>			
+            <a href="https://investigacao.ipe-policiacivil.sp.gov.br" target="_blank" class="link-card intranet-blue">PORTAL INVESTIGAÇÃO</a>
+            <a href="https://analitico.ipe-policiacivil.sp.gov.br/" target="_blank" class="link-card intranet-blue">ANALÍTICO</a>	
+			<a href="https://operacional.muralhapaulista.sp.gov.br/" target="_blank" class="link-card intranet-blue novo">MURALHA PAULISTA</a>
+            <a href="https://reconhecimento.ipe-policiacivil.sp.gov.br/" target="_blank" class="link-card intranet-blue">Reconhecimento Facial</a>
+			<a href="http://10.200.3.200:8081/alphaprodesp/login.jsp" target="_blank" class="link-card intranet-blue">ALPHA - RG</a>
+            <a href="http://10.200.3.196/login.jsp" target="_blank" class="link-card intranet-blue">ALPHA</a>
+            <a href="http://10.24.46.24/depa_atend" target="_blank" class="link-card intranet-blue">D E P A</a>
+            <a href="https://bopm.policiamilitar.sp.gov.br/" target="_blank" class="link-card intranet-blue">B.O. POLICIAL MILITAR</a>
+            <a href="http://10.24.46.52/disquedenuncia/login" target="_blank" class="link-card intranet-blue">DISQUE DENÚNCIA</a>
+            <a href="http://www.intranet.ssp.sp.gov.br/Infocrim/" target="_blank" class="link-card intranet-blue">INFOCRIM 3.0</a>
+            <a href="http://www.infocrim.ssp.sp.gov.br/" target="_blank" class="link-card intranet-blue">INFOCRIM</a>
+            <a href="https://seguranca.sinesp.gov.br/sinesp-seguranca/login.jsf?goto=INFOSEG" target="_blank" class="link-card intranet-blue">INFOSEG</a>
+            <a href="http://lead.policiacivil.sp.gov.br/" target="_blank" class="link-card intranet-blue">LEAD</a>
+            <a href="http://10.200.82.36/emulador" target="_blank" class="link-card intranet-blue">PRODESP EMULADOR</a>
+            <a href="http://www.hnprd.dipol.prodesp.sp.gov.br/policia/pages/policiaDataSource/LOGIN.aspx" target="_blank" class="link-card intranet-blue">PRODESP NOVA</a>
+            <a href="https://www.spsempapel.sp.gov.br/" target="_blank" class="link-card intranet-blue">SP SEM PAPEL</a>
+            <a href="https://plataforma.sp.gov.br/" target="_blank" class="link-card intranet-blue novo">PLATAFORMA SP</a>
+            <a href="https://dipol.policiacivil.sp.gov.br/sup-unidades/" target="_blank" class="link-card intranet-blue">UNIDADES POLICIAIS</a>
+            <a href="http://10.78.1.6/SegundaViaDeLaudos" target="_blank" class="link-card alerta">2º VIA DE LAUDO</a>
+            <a href="https://saepweb.policiacientifica.sp.gov.br/saep/" target="_blank" class="link-card alerta">SAEP Perícias</a>
+            <a href="https://esaj.tjsp.jus.br/esaj" target="_blank" class="link-card novo">E-SAJ</a>	
+			<a href="https://esaj.tjsp.jus.br/pastadigital/pg/abrirConferenciaDocumento.do" target="_blank" class="link-card novo">Conferência E-SAJ</a>				
+            <a href="https://goo.gl/maps/ucfCNb9YV8JgTWoz6" target="_blank" class="link-card mapas">MAPA COPOM</a>
+            <a href="https://www.google.com/maps/d/edit?mid=1BE_YvZ3biN6F4-m5WGgnVMqlYCtgCEM&amp;usp=sharing" target="_blank" class="link-card mapas">MAPA ESTADUAL</a>
+            <a href="https://goo.gl/maps/MHNLrqZGyP52" target="_blank" class="link-card mapas">MAPA DECAP</a>
+            <a href="https://portalbnmp.cnj.jus.br/#/pesquisa-peca" target="_blank" class="link-card novo">CONSULTA MANDADOS</a>
+            <a href="https://www.consultaaparelhoimpedido.com.br/public-web/welcome" target="_blank" class="link-card">CONSULTA IMEI TELEFONE</a>
+            <a href="http://cna.oab.org.br/" target="_blank" class="link-card">CNA - CONSULTA ADVOGADOS</a>
+            <a href="https://www.gov.br/pt-br" target="_blank" class="link-card">GOV.BR</a>
+            <a href="https://geosampa.prefeitura.sp.gov.br/PaginasPublicas/_SBC.aspx" target="_blank" class="link-card">GEO SAMPA</a>
+            <a href="https://www.sfp.sp.gov.br/" target="_blank" class="link-card">FAZENDA ESTADUAL</a>
+            <a href="https://servidor.sou.sp.gov.br/esc" target="_blank" class="link-card">RECADASTRAMENTO ANUAL</a>
+            <a href="https://www.jucesponline.sp.gov.br/" target="_blank" class="link-card">JUCESP</a>
+            <a href="https://www.imprensaoficial.com.br/" target="_blank" class="link-card">IMPRENSA OFICIAL</a>
+            <a href="https://www.sou.sp.gov.br/" target="_blank" class="link-card">SOU SP</a>
+            <a href="https://www.sp.gov.br/" target="_blank" class="link-card">SP.GOV.BR</a>
+            <a href="https://www.youtube.com/watch?v=rmxhzBzpwgM" target="_blank" class="link-card">RECADASTRAMENTO VIDEO</a>
+            <a href="http://www.tjsp.jus.br/" target="_blank" class="link-card">TRIBUNAL DE JUSTIÇA SP</a>
+
+        </div>
+
+        <!-- Informações da Página (Rodapé) -->
+        <div class="info-pagina">
+            <h4>Informações desta Página</h4>
+			<div>Inspirado no código do site GEPOL</div>
+            <div>Elaborado por: marcio.porto</div>
+            <div>CIP CRUZEIRO (cip.cruzeiro.d1)</div>			
+        </div>
+
+    </div>
+
+</body>
+</html>
